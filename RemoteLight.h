@@ -45,6 +45,7 @@ class RemoteLight
         DEVICE _device;
         unsigned long _lastStatusSentMillis;
         uint8_t _currentState;
+        uint8_t _currentLedState;
 
         CRGB leds[CAR_SWITCH_NUM_CHANNELS];
 

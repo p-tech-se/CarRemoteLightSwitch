@@ -10,6 +10,7 @@ RemoteLight::RemoteLight(uint32_t id)
     _device = UNKNOWN;
     _lastStatusSentMillis = 0;
     _currentState = 0; // Default all off
+    _currentLedState = 0; // Default all off
 }
 
 RemoteLight::~RemoteLight()
@@ -115,10 +116,10 @@ void RemoteLight::activateCurrentState() {
 
 
     } else if (_device == PANEL) {
-        // Set status LED from _currentState
+        // Set status LED from _currentLedState
 
         for (int i=0; i<CAR_SWITCH_NUM_CHANNELS; i++) {
-            if (bitRead(_currentState, i) == 1) {
+            if (bitRead(_currentLedState, i) == 1) {
                 leds[i] = CRGB::Blue;
             } else {
                 leds[i] = CRGB::Black;
@@ -217,6 +218,7 @@ void RemoteLight::handleIncomingData() {
     }
     else if (_device == PANEL && remotePayload.type == TYPE_RELAY_STATUS) {
         // Status from RELAY, store state for LED
+        _currentLedState = remotePayload.state;
     }
     else {
         Serial.println(F("Unhandled incoming data"));
