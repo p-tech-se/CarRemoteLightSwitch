@@ -45,8 +45,6 @@ bool RemoteLight::begin()
         } else if (input == 2) {
             _device = PANEL;
             EEPROM.put(0, _device);
-
-            FastLED.addLeds<NEOPIXEL, FASTLED_DATA_PIN>(leds, CAR_SWITCH_NUM_CHANNELS);
         } else {
             _device = UNKNOWN;
         }
@@ -81,6 +79,9 @@ bool RemoteLight::begin()
         for (int i=0; i<CAR_SWITCH_NUM_CHANNELS; i++) {
             pinMode(channelPinArr[i], INPUT_PULLUP);
         }
+
+        FastLED.addLeds<WS2812B, FASTLED_DATA_PIN, RGB>(leds, CAR_SWITCH_NUM_CHANNELS);
+        FastLED.setBrightness(100);
     }
     else
     {
